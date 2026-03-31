@@ -1,16 +1,15 @@
-import { prisma } from 'lib/prisma';
+import prisma from '@/lib/prisma';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
   try {
-    // 1. 唤醒 Umami
+    // 1. 唤醒 Umami (轻触 User 表)
     await prisma.user.findFirst();
 
-    // 2. 唤醒 Waline，查询网站首页（path=/）里的第一条评论（pageSize=1）的内容
+    // 2. 远端唤醒 Waline（携带有效来源并查询空记录以保障安全和速度）
     await fetch('https://waline.vtmatrix.com/api/comment?path=/&pageSize=1', {
       headers: {
         'User-Agent': 'Umami-Keep-Alive-Bot',
-        // 伪装成是从博客发出的请求
         'Origin': 'https://blog.vtmatrix.com' 
       },
     });
