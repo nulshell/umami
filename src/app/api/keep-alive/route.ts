@@ -8,7 +8,7 @@ export async function GET() {
       // 1. Umami (查自己的未授权接口，强制触发内置的鉴权 DB 校验)
       fetch(process.env.KEEPALIVE_UMAMI_URL!, {
         headers: { 
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 
+          'Keep-Alive-Bot', 
           'Origin': origin 
         },
         cache: 'no-store'
@@ -19,7 +19,7 @@ export async function GET() {
       // 2. Waline （携带有效来源并查询空记录以保障安全和速度）
       fetch(process.env.KEEPALIVE_WALINE_URL!, {
         headers: { 
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 
+          'Keep-Alive-Bot', 
           'Origin': origin 
         },
         cache: 'no-store'
@@ -32,7 +32,7 @@ export async function GET() {
         headers: {
           'apikey': process.env.KEEPALIVE_TALKS_KEY || '',
           'Authorization': `Bearer ${process.env.KEEPALIVE_TALKS_KEY || ''}`,
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+          'Keep-Alive-Bot'
         },
         cache: 'no-store'
       })
@@ -43,10 +43,7 @@ export async function GET() {
     return NextResponse.json({
       status: 'success',
       message: 'Keep-Alive triggered!',
-      details: results, // 返回 3 个请求的真实状态码
-      envCheck: {
-        hasTalksUrl: !!process.env.KEEPALIVE_TALKS_URL,
-        hasTalksKey: !!process.env.KEEPALIVE_TALKS_KEY
+      details: results // 返回 3 个请求的真实状态码
       }
     });
   } catch (error: any) {
