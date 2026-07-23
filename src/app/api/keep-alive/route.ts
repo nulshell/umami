@@ -7,10 +7,7 @@ export async function GET() {
     const results = await Promise.all([
       // 1. Umami (查自己的未授权接口，强制触发内置的鉴权 DB 校验)
       fetch(process.env.KEEPALIVE_UMAMI_URL!, {
-        headers: { 
-          'Keep-Alive-Bot', 
-          'Origin': origin 
-        },
+        headers: { 'User-Agent': 'Keep-Alive-Bot', 'Origin': origin },
         cache: 'no-store'
       })
       .then(res => res.ok ? 'Umami: OK' : `Umami Fail: ${res.status}`)
@@ -18,10 +15,7 @@ export async function GET() {
 
       // 2. Waline （携带有效来源并查询空记录以保障安全和速度）
       fetch(process.env.KEEPALIVE_WALINE_URL!, {
-        headers: { 
-          'Keep-Alive-Bot', 
-          'Origin': origin 
-        },
+        headers: { 'User-Agent': 'Keep-Alive-Bot', 'Origin': origin },
         cache: 'no-store'
       })
       .then(res => res.ok ? 'Waline: OK' : `Waline Fail: ${res.status}`)
@@ -32,7 +26,7 @@ export async function GET() {
         headers: {
           'apikey': process.env.KEEPALIVE_TALKS_KEY || '',
           'Authorization': `Bearer ${process.env.KEEPALIVE_TALKS_KEY || ''}`,
-          'Keep-Alive-Bot'
+          'User-Agent': 'Keep-Alive-Bot'
         },
         cache: 'no-store'
       })
