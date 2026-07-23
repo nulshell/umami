@@ -38,7 +38,6 @@ export async function GET() {
       status: 'success',
       message: 'Keep-Alive triggered!',
       details: results // 返回 3 个请求的真实状态码
-      }
     });
   } catch (error: any) {
     return NextResponse.json(
