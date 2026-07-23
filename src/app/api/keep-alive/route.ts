@@ -36,8 +36,8 @@ export async function GET() {
 
     return NextResponse.json({
       status: 'success',
-      message: 'Keep-Alive triggered!'
-      details: results // 返回 3 个请求的真实状态码
+      message: 'Keep-Alive triggered!',
+      details: results, // 返回 3 个请求的真实状态码
       envCheck: {
         hasTalksUrl: !!process.env.KEEPALIVE_TALKS_URL,
         hasTalksKey: !!process.env.KEEPALIVE_TALKS_KEY
